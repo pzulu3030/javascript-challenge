@@ -23,21 +23,21 @@ shapeInput.on("change", cleanDisplay);
 function cleanDisplay() {
   tbody.html("");
 }
-
 tbody.on("change", cleanDisplay);
-
 button = d3.select("#filter-btn");
 button.on("click", runHandler);
-//Input = d3.select(".form-control");
 
 // Create handlers
 function runHandler() {
+  // capture forms field values to variables
   dateElement = dateInput.property("value");
   countryElement = countryInput.property("value");
   cityElement = cityInput.property("value");
   stateElement = stateInput.property("value");
   shapeElement = shapeInput.property("value");
 
+  // Check which form field is entered and filter the data accordingly
+  let filteredData = tableData;
   if (dateElement) {
     filteredData = tableData.filter((item) => item.datetime === dateElement);
     console.log(filteredData);
@@ -58,12 +58,14 @@ function runHandler() {
   }
   if (shapeElement) {
     filteredData = filteredData.filter((item) => item.shape === shapeElement);
-
+    filteredData.forEach(ufoData);
     console.log(filteredData);
   }
+  //call for table display function after rows are filtered
   filteredData.forEach(ufoData);
 }
 
+// function to display table data
 function ufoData(item) {
   let row = tbody.append("tr");
   row.append("td").text(item.datetime);
